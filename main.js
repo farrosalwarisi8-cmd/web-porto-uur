@@ -1,136 +1,47 @@
-// Mobile Menu Toggle
-const hamburger = document.getElementById('hamburger');
-const mobileMenu = document.getElementById('mobileMenu');
-const navLinks = mobileMenu.querySelectorAll('a');
+// ══════════════════════════════════════
+// CUSTOM CURSOR
+// ══════════════════════════════════════
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mouseX = 0, mouseY = 0;
+let ringX = 0, ringY = 0;
 
-hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    mobileMenu.classList.toggle('hidden');
+document.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  cursor.style.left = mouseX + 'px';
+  cursor.style.top = mouseY + 'px';
 });
 
-// Close menu when link is clicked
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        mobileMenu.classList.add('hidden');
-    });
-});
-
-// Scroll Animation Observer
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fade-in-up');
-            observer.unobserve(entry.target);
-        }
-    });
-}, observerOptions);
-
-// Observe all elements with fade-in animation
-document.addEventListener('DOMContentLoaded', () => {
-    const elements = document.querySelectorAll('h2, .bg-white, .bg-gradient-to-br, .bg-gradient-to-r');
-    elements.forEach(el => {
-        observer.observe(el);
-    });
-});
-
-// Desktop Navbar Active Link with Underline
-const desktopLinks = document.querySelectorAll('.hidden.md\\:flex a.link');
-
-// Smooth active link on scroll
-const navItems = document.querySelectorAll('a[href^="#"]');
-
-function updateActiveLink() {
-    let current = '';
-    
-    navItems.forEach(item => {
-        const section = document.querySelector(item.getAttribute('href'));
-        if (section) {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            if (window.pageYOffset >= sectionTop - 150) {
-                current = item.getAttribute('href');
-            }
-        }
-    });
-
-    navItems.forEach(item => {
-        item.classList.remove('link-active');
-        if (item.getAttribute('href') === current) {
-            item.classList.add('link-active');
-        }
-    });
+function animateRing() {
+  ringX += (mouseX - ringX) * 0.12;
+  ringY += (mouseY - ringY) * 0.12;
+  ring.style.left = ringX + 'px';
+  ring.style.top = ringY + 'px';
+  requestAnimationFrame(animateRing);
 }
+animateRing();
 
-window.addEventListener('scroll', updateActiveLink);
-window.addEventListener('load', updateActiveLink);
-
-// Scroll to top animation
-const scrollToTop = () => {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
-};
-
-// Add scroll event for navbar shadow
-window.addEventListener('scroll', () => {
-    const navbar = document.querySelector('nav');
-    if (window.scrollY > 10) {
-        navbar.classList.add('shadow-lg');
-    } else {
-        navbar.classList.remove('shadow-lg');
+// ══════════════════════════════════════
+// SCROLL REVEAL
+// ══════════════════════════════════════
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
     }
-});
+  });
+}, { threshold: 0.1 });
 
-// Button interaction
-const demoButtons = document.querySelectorAll('button:not(#hamburger)');
+reveals.forEach((el) => observer.observe(el));
 
-demoButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
-        // Create ripple effect
-        const ripple = document.createElement('span');
-        const rect = button.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        const x = e.clientX - rect.left - size / 2;
-        const y = e.clientY - rect.top - size / 2;
-
-        ripple.style.width = ripple.style.height = size + 'px';
-        ripple.style.left = x + 'px';
-        ripple.style.top = y + 'px';
-        ripple.classList.add('ripple');
-
-        // Add some visual feedback
-        button.style.transform = 'scale(0.98)';
-        setTimeout(() => {
-            button.style.transform = 'scale(1)';
-        }, 200);
-    });
-});
-
-// Navbar background change on scroll
-const navbar = document.querySelector('nav');
+// ══════════════════════════════════════
+// NAVBAR SCROLL EFFECT
+// ══════════════════════════════════════
 window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-        navbar.style.backdropFilter = 'blur(10px)';
-    } else {
-        navbar.style.background = 'white';
-        navbar.style.backdropFilter = 'none';
-    }
-});
-
-// Initialize animations on page load
-window.addEventListener('load', () => {
-    const heroElements = document.querySelectorAll('.animate-fade-in-up, .animate-float, .animate-slide-in-left, .animate-slide-in-right');
-    heroElements.forEach((el, index) => {
-        if (!el.style.animationDelay) {
-            el.style.animationDelay = (index * 0.1) + 's';
-        }
-    });
+  document.querySelector('nav').style.background =
+    window.scrollY > 60
+      ? 'rgba(11, 15, 26, 0.97)'
+      : 'rgba(11, 15, 26, 0.85)';
 });
