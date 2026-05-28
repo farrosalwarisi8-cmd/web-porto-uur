@@ -341,10 +341,10 @@ nav {
 
 .photo-main {
   position: absolute;
-  right: 0;
-  top: 25px;
-  width: 240px;
-  height: 360px;
+  left: 100px;
+  top: 100px;
+  width: 220px;
+  height: 340px;
   background: linear-gradient(135deg, #1e2d4a, #2a3f60);
   background-image: url('/aset/Group\ 3.svg');
   background-repeat: no-repeat, no-repeat;
@@ -355,6 +355,8 @@ nav {
   overflow: hidden;
   box-shadow: 0 32px 64px rgba(0, 0, 0, 0.5);
   animation: fadeIn 0.8s 0.7s both;
+  transition: transform 0.35s cubic-bezier(.2,.9,.2,1), box-shadow 0.35s ease;
+  will-change: transform;
 }
 
 .photo-main::after {
@@ -372,10 +374,10 @@ nav {
 
 .photo-side {
   position: absolute;
-  left: 40px;
-  bottom: 0px;
-  width: 160px;
-  height: 220px;
+  right: 30px;
+  top: 65px;
+  width: 150px;
+  height: 210px;
   background: linear-gradient(135deg, #162236, #1e3050);
   background-image: url('/aset/Gambar\ hero2.svg');
   background-repeat: no-repeat, no-repeat;
@@ -386,14 +388,16 @@ nav {
   overflow: hidden;
   box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
   animation: fadeIn 0.8s 0.9s both;
+  transition: transform 0.35s cubic-bezier(.2,.9,.2,1), box-shadow 0.35s ease;
+  will-change: transform;
 }
 
 .photo-accent {
   position: absolute;
-  left: 10px;
-  top: 10px;
-  width: 120px;
-  height: 190px;
+  right: 30px;
+  bottom: 30px;
+  width: 150px;
+  height: 210px;
   background: linear-gradient(135deg, #1a2840, #243554);
   background-image: url('/aset/Gambar\ hero3.svg');
   background-repeat: no-repeat, no-repeat;
@@ -404,6 +408,17 @@ nav {
   overflow: hidden;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
   animation: fadeIn 0.8s 1.1s both;
+  transition: transform 0.35s cubic-bezier(.2,.9,.2,1), box-shadow 0.35s ease;
+  will-change: transform;
+}
+
+/* Hover lift for photo cards */
+.photo-main:hover,
+.photo-side:hover,
+.photo-accent:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 42px 84px rgba(0,0,0,0.55);
+  z-index: 5;
 }
 
 /* Placeholder person silhouettes */
@@ -626,7 +641,14 @@ section {
   align-items: center;
   justify-content: center;
   margin-bottom: 14px;
-  font-size: 1.4rem;
+  overflow: hidden;
+}
+
+.sw-icon img {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+  display: block;
 }
 
 .sw-icon--canva {
@@ -1060,7 +1082,15 @@ section {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 80px;
-  align-items: start;
+  align-items: stretch;
+}
+
+.contact-info,
+.contact-form {
+  background: var(--navy3);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px;
 }
 
 .contact-links {
@@ -1068,6 +1098,17 @@ section {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.contact-form-intro {
+  padding: 0 40px 24px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.75;
+}
+
+.contact-form-intro p {
+  margin: 0;
 }
 
 .contact-link-item {

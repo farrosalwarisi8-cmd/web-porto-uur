@@ -45,3 +45,26 @@ window.addEventListener('scroll', () => {
       ? 'rgba(11, 15, 26, 0.97)'
       : 'rgba(11, 15, 26, 0.85)';
 });
+
+const contactForm = document.getElementById('contact-form');
+if (contactForm) {
+  contactForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const name = contactForm.querySelector('input[name="name"]').value.trim();
+    const email = contactForm.querySelector('input[name="email"]').value.trim();
+    const subject = contactForm.querySelector('input[name="subject"]').value.trim();
+    const message = contactForm.querySelector('textarea[name="message"]').value.trim();
+    const phone = '6282138661552';
+
+    const text = `Halo, saya ${name || 'ingin menghubungi Anda'}.
+
+Subject: ${subject || '-'}
+Email: ${email || '-'}
+
+${message || '-'}
+`;
+    const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+    window.open(whatsappUrl, '_blank');
+  });
+}
